@@ -27,56 +27,55 @@ Write a single chained PySpark command that does the following in order:
 ### My Solution:
 
 ```python
-    from pyspark.sql import SparkSession
-    from pyspark.sql.functions import col, max
-    from pyspark.sql.types import (
-        LongType,
-        StringType,
-        BooleanType,
-        DoubleType,
-        StructType,
-        StructField,
-    )
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, max
+from pyspark.sql.types import (
+    LongType,
+    StringType,
+    BooleanType,
+    DoubleType,
+    StructType,
+    StructField,
+)
 
-    # Sparksession
-    spark = SparkSession.builder.appName("Challenge_2").master("local[*]").getOrCreate()
+# Sparksession
+spark = SparkSession.builder.appName("Challenge_2").master("local[*]").getOrCreate()
 
-    # Define the schema explicitly
-    flight_schema = StructType(
-        [
-            StructField("record_id", LongType(), True),
-            StructField("departure_code", StringType(), True),
-            StructField("ticket_price", DoubleType(), True),
-            StructField("is_international", BooleanType(), True),
-        ]
-    )
+# Define the schema explicitly
+flight_schema = StructType(
+   [
+       StructField("record_id", LongType(), True),
+       StructField("departure_code", StringType(), True),
+       StructField("ticket_price", DoubleType(), True),
+       StructField("is_international", BooleanType(), True),
+   ]
+)
 
-    # 1. Create the raw data using standard Python lists and tuples
-    mock_data = [
-        (84729481, "LAX", 450.75, False),
-        (84729482, "JFK", 1250.00, True),
-        (84729483, "ORD", 299.99, False),
-        (84729484, "LHR", 890.50, True),
-    ]
+# 1. Create the raw data using standard Python lists and tuples
+mock_data = [
+    (84729481, "LAX", 450.75, False),
+    (84729482, "JFK", 1250.00, True),
+    (84729483, "ORD", 299.99, False),
+    (84729484, "LHR", 890.50, True),
+]
 
-    df = spark.createDataFrame(data=mock_data, schema=flight_schema)
-
-    mod_df = (
-        df.withColumn("ticket_price", col("ticket_price") + 25)
-        .withColumnRenamed("is_international", "flight_type")
-        .groupBy("flight_type")
-        .agg(max("ticket_price").alias("max_price"))
-    )
-    mod_df.show()
+df = spark.createDataFrame(data=mock_data, schema=flight_schema)
+mod_df = (
+    df.withColumn("ticket_price", col("ticket_price") + 25)
+    .withColumnRenamed("is_international", "flight_type")
+    .groupBy("flight_type")
+    .agg(max("ticket_price").alias("max_price"))
+)
+mod_df.show()
 ```
 
 ### My Output Verification:
 
 ```
-    +-----------+---------+
-    |flight_type|max_price|
-    +-----------+---------+
-    |       true|   1275.0|
-    |      false|   475.75|
-    +-----------+---------+
++-----------+---------+
+|flight_type|max_price|
++-----------+---------+
+|       true|   1275.0|
+|      false|   475.75|
++-----------+---------+
 ```
