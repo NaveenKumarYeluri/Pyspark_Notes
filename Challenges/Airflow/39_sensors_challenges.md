@@ -25,13 +25,46 @@ Write an Airflow DAG named `api_sensor_pipeline`.
 ### My Solution:
 
 ```python
+import random
+from airflow.sdk import dag, task
+from airflow.sdk.bases.sensor import PokeReturnValue
+from datetime import datetime
 
+
+@task.sensor(poke_interval=3, timeout=15, mode="poke")
+def check_api_status():
+    number = random.randint(1, 5)
+
+    if number == 5:
+        print("API is ready!")
+        return PokeReturnValue(is_done=True)
+    else:
+        print("API not ready yet. Poking again...")
+        return PokeReturnValue(is_done=False)
+
+
+@task
+def download_payload():
+    print("Downloading data from API...")
+
+
+@dag(
+    dag_id="api_sensor_pipeline",
+    schedule="@daily",
+    start_date=datetime(2026, 8, 24),
+    catchup=False,
+    tags=["practice"],
+)
+def api_sensor_pipeline_fun():
+    check_api_status() >> download_payload()
+
+
+api_sensor_pipeline_fun()
 ```
 
 ### My Output Verification:
 
 ```
-
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::check_api_status:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::group::Log message source details

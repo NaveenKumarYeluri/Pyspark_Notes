@@ -60,7 +60,6 @@ dynamic_partition_pipeline_fun()
 ### My Output Verification:
 
 ```
-
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::get_regions:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::group::Log message source details
@@ -83,7 +82,6 @@ Task Identity ti_id=01a03238-5413-7d66-b4b4-e434d2e608e2 dag_id=dynamic_partitio
 [2026-08-24T05:22:29.690552Z] INFO - ::endgroup::
 [2026-08-24T05:22:29.691246Z] INFO -  Previous state of the Task instance: TaskInstanceState.RUNNING
 [2026-08-24T05:22:29.692047Z] INFO - Task operator:<Task(_PythonDecoratedOperator): get_regions>
-
 
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::process_region::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

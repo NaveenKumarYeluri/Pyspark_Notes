@@ -75,7 +75,6 @@ conditional_file_pipeline_fun()
 ### My Output Verification:
 
 ```
-
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::extract_file::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::group::Log message source details
